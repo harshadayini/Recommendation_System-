@@ -1,0 +1,44 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Environments
+.env
+venv/
+.venv/
+env/
+
+# Large datasets
+*.csv
+*.tsv
+*.jsonl
+*.zip
+*.tar
+*.gz
+
+# Model / embedding / ML artifacts
+*.pkl
+*.pt
+*.pth
+*.h5
+*.joblib
+*.npz
+*.npy
+
+# Dataset folders
+MINDsmall_train/
+MINDsmall_dev/
+telugu/
+
+# Model/output folders
+results/
+telugu_classifier/
+telugu_classifier_model/
+telugu_classifier_newcat/
+
+# Logs
+*.log
