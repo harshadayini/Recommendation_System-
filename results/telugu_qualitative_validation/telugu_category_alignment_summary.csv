@@ -1,0 +1,4 @@
+user_id,profile,top_category_1,top_category_2,top_category_3,recommendations,top1_alignment_rate,top3_alignment_rate,mean_category_confidence
+U245228,Sports-oriented,sports,tv,music,10,1.0,1.0,0.998858695
+U539584,Music/Entertainment-oriented,music,movies,entertainment,10,1.0,1.0,0.9397161329999999
+U69259,Politics-oriented,newspolitics,newsworld,newsscienceandtechnology,10,1.0,1.0,0.95881559

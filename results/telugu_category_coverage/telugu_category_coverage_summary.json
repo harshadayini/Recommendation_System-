@@ -1,0 +1,70 @@
+{
+  "total_items": 40906,
+  "total_categories": 23,
+  "used_categories": 19,
+  "unused_categories": 4,
+  "coverage_rate": 0.8260869565217391,
+  "entropy_bits": 2.6077928098846646,
+  "normalized_entropy": 0.5764910119983768,
+  "effective_category_count": 6.095703834690943,
+  "top_1_share": 0.5392607441451132,
+  "top_5_share": 0.8067276194201339,
+  "unused_category_names": [
+    "games",
+    "newslocalpolitics",
+    "newstechnology",
+    "newsvideos"
+  ],
+  "top_categories": [
+    {
+      "category": "newsworld",
+      "telugu_count": 22059,
+      "telugu_share": 0.5392607441451132
+    },
+    {
+      "category": "finance",
+      "telugu_count": 4066,
+      "telugu_share": 0.09939862122915953
+    },
+    {
+      "category": "sports",
+      "telugu_count": 2540,
+      "telugu_share": 0.06209358040385274
+    },
+    {
+      "category": "movies",
+      "telugu_count": 2526,
+      "telugu_share": 0.06175133232288662
+    },
+    {
+      "category": "weather",
+      "telugu_count": 1809,
+      "telugu_share": 0.04422334131912189
+    },
+    {
+      "category": "news",
+      "telugu_count": 1439,
+      "telugu_share": 0.03517821346501736
+    },
+    {
+      "category": "travel",
+      "telugu_count": 1132,
+      "telugu_share": 0.027673201975260353
+    },
+    {
+      "category": "health",
+      "telugu_count": 868,
+      "telugu_share": 0.021219381019899283
+    },
+    {
+      "category": "newsscienceandtechnology",
+      "telugu_count": 835,
+      "telugu_share": 0.020412653400479146
+    },
+    {
+      "category": "newspolitics",
+      "telugu_count": 829,
+      "telugu_share": 0.02026597565149367
+    }
+  ]
+}

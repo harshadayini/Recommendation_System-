@@ -1,0 +1,7 @@
+list_type,user_a,user_b,story_id_jaccard,headline_jaccard,shared_story_ids,shared_headlines
+raw_top10,U245228,U539584,0.0,0.0,0,0
+raw_top10,U245228,U69259,0.0,0.0,0,0
+raw_top10,U539584,U69259,0.0,0.0,0,0
+headline_deduped_top10,U245228,U539584,0.0,0.0,0,0
+headline_deduped_top10,U245228,U69259,0.0,0.0,0,0
+headline_deduped_top10,U539584,U69259,0.0,0.0,0,0

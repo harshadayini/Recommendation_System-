@@ -1,0 +1,251 @@
+{
+  "config": {
+    "train_dir": "MINDlarge_train",
+    "eval_dir": "MINDlarge_dev",
+    "model_path": "submissions/refined_mindlarge_test_train_only/refined_submission_model.pkl",
+    "dataset_path": "submissions/refined_mindlarge_test_train_only/refined_submission_dataset.pkl",
+    "item_features_path": "submissions/refined_mindlarge_test_train_only/refined_submission_item_features.pkl",
+    "eval_limit": 1000,
+    "note": "Uses the saved refined submission policy: LightFM where mapped, popularity/category fallback elsewhere."
+  },
+  "coverage": {
+    "groups_seen": 1000,
+    "candidate_items_seen": 37456,
+    "groups_evaluated": 1000,
+    "cold_user_groups": 142,
+    "unknown_candidate_items": 27
+  },
+  "slices": [
+    {
+      "slice": "all_candidates_train_known",
+      "groups": 374,
+      "AUC": 0.6326501696865863,
+      "MRR": 0.39838105656296874,
+      "nDCG@5": 0.41057590308861686,
+      "nDCG@10": 0.46089973690914104,
+      "candidate_items": 10456,
+      "known_train_candidate_ratio": 1.0,
+      "positive_train_known_ratio": 1.0
+    },
+    {
+      "slice": "all_positive_items_train_known",
+      "groups": 888,
+      "AUC": 0.6291886207661971,
+      "MRR": 0.33649973201930433,
+      "nDCG@5": 0.3248499527362753,
+      "nDCG@10": 0.3812779005576065,
+      "candidate_items": 33987,
+      "known_train_candidate_ratio": 0.9571895136375673,
+      "positive_train_known_ratio": 1.0
+    },
+    {
+      "slice": "candidate_count_0-5",
+      "groups": 132,
+      "AUC": 0.6268939393939394,
+      "MRR": 0.6888888888888889,
+      "nDCG@5": 0.7681077531714499,
+      "nDCG@10": 0.7681077531714499,
+      "candidate_items": 445,
+      "known_train_candidate_ratio": 0.8292134831460675,
+      "positive_train_known_ratio": 0.8283582089552238
+    },
+    {
+      "slice": "candidate_count_11-20",
+      "groups": 209,
+      "AUC": 0.6112098717794239,
+      "MRR": 0.32915839593998897,
+      "nDCG@5": 0.3324729125805748,
+      "nDCG@10": 0.42894640760040953,
+      "candidate_items": 3143,
+      "known_train_candidate_ratio": 0.9125039770919504,
+      "positive_train_known_ratio": 0.9267399267399268
+    },
+    {
+      "slice": "candidate_count_21-50",
+      "groups": 274,
+      "AUC": 0.6320666396475639,
+      "MRR": 0.2582546638508832,
+      "nDCG@5": 0.21785989416403087,
+      "nDCG@10": 0.2792128427314273,
+      "candidate_items": 9081,
+      "known_train_candidate_ratio": 0.9501156260323753,
+      "positive_train_known_ratio": 0.9544364508393285
+    },
+    {
+      "slice": "candidate_count_51-100",
+      "groups": 164,
+      "AUC": 0.6058941537144759,
+      "MRR": 0.19903916934099294,
+      "nDCG@5": 0.13443045551279745,
+      "nDCG@10": 0.17566530224420512,
+      "candidate_items": 11786,
+      "known_train_candidate_ratio": 0.9500254539283897,
+      "positive_train_known_ratio": 0.9358600583090378
+    },
+    {
+      "slice": "candidate_count_6-10",
+      "groups": 132,
+      "AUC": 0.6179338023088022,
+      "MRR": 0.483471620971621,
+      "nDCG@5": 0.5395243220888644,
+      "nDCG@10": 0.5998855226726891,
+      "candidate_items": 1021,
+      "known_train_candidate_ratio": 0.8442703232125367,
+      "positive_train_known_ratio": 0.8378378378378378
+    },
+    {
+      "slice": "candidate_count_>100",
+      "groups": 89,
+      "AUC": 0.6579411226641912,
+      "MRR": 0.15731526217238437,
+      "nDCG@5": 0.07540429375117456,
+      "nDCG@10": 0.1150548558837622,
+      "candidate_items": 11980,
+      "known_train_candidate_ratio": 0.9654424040066778,
+      "positive_train_known_ratio": 0.9617224880382775
+    },
+    {
+      "slice": "cold_user",
+      "groups": 142,
+      "AUC": 0.5361278734456463,
+      "MRR": 0.26796051077243027,
+      "nDCG@5": 0.26209337576268543,
+      "nDCG@10": 0.31853198866640153,
+      "candidate_items": 5165,
+      "known_train_candidate_ratio": 0.9401742497579865,
+      "positive_train_known_ratio": 0.934010152284264
+    },
+    {
+      "slice": "has_new_candidate_items",
+      "groups": 626,
+      "AUC": 0.6175057859961626,
+      "MRR": 0.30663967555735094,
+      "nDCG@5": 0.2827317456189403,
+      "nDCG@10": 0.3408973173258925,
+      "candidate_items": 27000,
+      "known_train_candidate_ratio": 0.9271851851851852,
+      "positive_train_known_ratio": 0.8864970645792564
+    },
+    {
+      "slice": "has_new_positive_item",
+      "groups": 112,
+      "AUC": 0.57544902014284,
+      "MRR": 0.3762427680384796,
+      "nDCG@5": 0.37570270073916884,
+      "nDCG@10": 0.4214593442399367,
+      "candidate_items": 3469,
+      "known_train_candidate_ratio": 0.8526953012395503,
+      "positive_train_known_ratio": 0.39896373056994816
+    },
+    {
+      "slice": "history_len_0-0",
+      "groups": 26,
+      "AUC": 0.6645073149439074,
+      "MRR": 0.3598188848188848,
+      "nDCG@5": 0.34218075208111204,
+      "nDCG@10": 0.39255976137807624,
+      "candidate_items": 1238,
+      "known_train_candidate_ratio": 0.9652665589660743,
+      "positive_train_known_ratio": 0.9791666666666666
+    },
+    {
+      "slice": "history_len_0-5",
+      "groups": 155,
+      "AUC": 0.5829416072741828,
+      "MRR": 0.33653354258735574,
+      "nDCG@5": 0.35941497397679595,
+      "nDCG@10": 0.39990984787818484,
+      "candidate_items": 4822,
+      "known_train_candidate_ratio": 0.9350891746163418,
+      "positive_train_known_ratio": 0.9297297297297298
+    },
+    {
+      "slice": "history_len_21-50",
+      "groups": 275,
+      "AUC": 0.6371326350938189,
+      "MRR": 0.33481517507928815,
+      "nDCG@5": 0.3129334533273314,
+      "nDCG@10": 0.37663215864391436,
+      "candidate_items": 11342,
+      "known_train_candidate_ratio": 0.9464821019220596,
+      "positive_train_known_ratio": 0.9140271493212669
+    },
+    {
+      "slice": "history_len_51-100",
+      "groups": 128,
+      "AUC": 0.6777307498714313,
+      "MRR": 0.36310137248439023,
+      "nDCG@5": 0.35063311847792195,
+      "nDCG@10": 0.39628376630309,
+      "candidate_items": 4837,
+      "known_train_candidate_ratio": 0.9452139756047137,
+      "positive_train_known_ratio": 0.9147982062780269
+    },
+    {
+      "slice": "history_len_6-20",
+      "groups": 363,
+      "AUC": 0.6003083237075135,
+      "MRR": 0.3266878123434523,
+      "nDCG@5": 0.3223656305635157,
+      "nDCG@10": 0.3800959168666415,
+      "candidate_items": 12620,
+      "known_train_candidate_ratio": 0.9504754358161648,
+      "positive_train_known_ratio": 0.9188034188034188
+    },
+    {
+      "slice": "history_len_>100",
+      "groups": 53,
+      "AUC": 0.6729002649088748,
+      "MRR": 0.4206440988988967,
+      "nDCG@5": 0.339301457874354,
+      "nDCG@10": 0.4021256320116227,
+      "candidate_items": 2597,
+      "known_train_candidate_ratio": 0.9564882556796304,
+      "positive_train_known_ratio": 0.9556962025316456
+    },
+    {
+      "slice": "known_user",
+      "groups": 858,
+      "AUC": 0.6375753233882276,
+      "MRR": 0.35303095515590555,
+      "nDCG@5": 0.34187436031969465,
+      "nDCG@10": 0.3969075522836812,
+      "candidate_items": 32291,
+      "known_train_candidate_ratio": 0.948685392214549,
+      "positive_train_known_ratio": 0.9223813112283346
+    },
+    {
+      "slice": "overall",
+      "groups": 1000,
+      "AUC": 0.6231697854963811,
+      "MRR": 0.34095095205345205,
+      "nDCG@5": 0.33054546051259937,
+      "nDCG@10": 0.3857782222500275,
+      "candidate_items": 37456,
+      "known_train_candidate_ratio": 0.9475117471166168,
+      "positive_train_known_ratio": 0.9238845144356955
+    },
+    {
+      "slice": "positive_category_not_seen_in_history",
+      "groups": 245,
+      "AUC": 0.4212297195347005,
+      "MRR": 0.21232320271871433,
+      "nDCG@5": 0.21377876353676695,
+      "nDCG@10": 0.26467534683542016,
+      "candidate_items": 8102,
+      "known_train_candidate_ratio": 0.9482843742285856,
+      "positive_train_known_ratio": 0.931740614334471
+    },
+    {
+      "slice": "positive_category_seen_in_history",
+      "groups": 755,
+      "AUC": 0.6887000055766616,
+      "MRR": 0.3826910826322742,
+      "nDCG@5": 0.36843664032594897,
+      "nDCG@10": 0.4250765063249663,
+      "candidate_items": 29354,
+      "known_train_candidate_ratio": 0.9472984942426926,
+      "positive_train_known_ratio": 0.9220146222583265
+    }
+  ]
+}

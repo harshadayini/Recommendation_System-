@@ -1,0 +1,16 @@
+{
+  "train_dir": "MINDlarge_train",
+  "eval_dir": "MINDlarge_dev",
+  "test_dir": "MINDlarge_test",
+  "loss": "bpr",
+  "components": 100,
+  "learning_rate": 0.01,
+  "epochs": 10,
+  "item_alpha": 0.0,
+  "user_alpha": 0.0,
+  "user_identity_features": false,
+  "item_identity_features": false,
+  "explicit_train_uid_features": true,
+  "explicit_train_iid_features": true,
+  "history_category_features": true
+}

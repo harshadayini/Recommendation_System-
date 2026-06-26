@@ -1,0 +1,392 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+%Template version as of 6/27/2024
+\usepackage{tabularx}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\usepackage{float}
+\setmainlanguage{english}
+\setotherlanguage{telugu}
+\usepackage{placeins}
+\newfontfamily\telugufont{Noto Serif Telugu}
+\usepackage{amsmath}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{Category-Aligned Transfer Learning for Cross-Lingual News Recommendation in Low-Resource Languages}
+
+
+
+%\author{\IEEEauthorblockN{1\textsuperscript{st} Given Name Surname}
+%\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+%\textit{name of organization (of Aff.)}\\
+%City, Country \\
+%email address or ORCID}
+%\and
+%\IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
+%\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+%\textit{name of organization (of Aff.)}\\
+%City, Country \\
+%email address or ORCID}
+%\and
+%\IEEEauthorblockN{3\textsuperscript{rd} Given Name Surname}
+%\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+%\textit{name of organization (of Aff.)}\\
+%City, Country \\
+%email address or ORCID}
+
+
+\maketitle
+
+\begin{abstract}
+Building recommender systems for low-resource languages such as Telugu is essential for equitable access to digital news in multilingual societies. Multilingual users rarely treat their languages as interchangeable; instead, they exhibit information code-switching, using different languages for different information needs. Existing recommender systems, however, largely assume monolingual interactions or require target-language user data, limiting their applicability in multilingual settings.
+We propose a category-aligned cross-lingual news recommendation framework that transfers user preferences learned from English interactions to recommend Telugu news articles through a shared editorial category space. Using the MINDlarge benchmark as the source domain, we develop and identify an effective category-based recommendation model and project Telugu articles into the same representation using an XLM-RoBERTa classifier. This enables the English-trained recommender to score previously unseen Telugu articles without Telugu interaction logs, bilingual users, or parallel recommendation data.
+Experiments on the official MINDlarge benchmark show that the refined-category representation substantially outperforms text-based and raw-category feature configurations. Proxy analyses on the Telugu corpus indicate broad category coverage, preservation of user-interest signals, and personalized recommendation lists despite the complete absence of target-language interactions. These results demonstrate that category-aligned transfer provides a simple, scalable, and computationally efficient approach for cross-lingual news recommendation in low-resource multilingual settings.
+
+\end{abstract}
+
+\begin{IEEEkeywords}
+News recommendation, Cross-lingual recommendation,
+Transfer learning, Low-resource languages\end{IEEEkeywords}
+
+\section{Introduction}
+
+Recommender systems are central to personalizing information access, yet most advances target high-resource languages such as English. In linguistically diverse regions like India, many users engage daily with English platforms while preferring to consume news in their native languages, creating a gap for low-resource languages such as Telugu. Building cross-lingual recommenders is challenging due to the absence of aligned user--item interactions across languages and the scarcity of annotated resources in target domains. Existing benchmarks are predominantly monolingual, limiting the development and evaluation of cross-lingual recommendation methods.
+
+News recommendation introduces two additional challenges. First, language domains often have no overlapping users; our Telugu corpus contains no user interaction data, making collaborative filtering approaches inapplicable. Second, the rapid publication cycle of news creates a persistent cold-start problem, as new articles continuously enter the system without historical engagement signals. While user preferences evolve gradually, broad editorial categories such as politics, sports, and entertainment tend to remain relatively stable and can therefore serve as anchors for knowledge transfer across languages.
+
+These technical challenges become particularly important in multilingual societies such as India, where language choice is itself influenced by information needs rather than merely linguistic preference. People rarely view their different languages as perfect substitutes. Instead, multilingual users often exhibit compartmentalized preferences, where the selected language influences the type, depth, and context of the information consumed. Most multilingual individuals use different languages for different domains of life, a phenomenon commonly associated with diglossia. For example, a reader may prefer English for international politics, global technology, and business news because English media offers broader international coverage. In contrast, the same reader may rely on Telugu for state politics, local community affairs, regional cinema, and hyper-local events that are often underrepresented in English-language media. Moreover, English is frequently associated with professional and academic contexts, encouraging the consumption of analytical and long-form content, whereas regional languages are more closely connected to cultural, social, and community life.
+
+This behavior is further explained by the concept of information code-switching. In sociolinguistics, alternating between languages is known as code-switching. When applied specifically to information-seeking behavior, it is referred to as information code-switching \cite{CRL16765}. The concept suggests that multilingual users systematically select languages according to their informational goals rather than treating all languages as interchangeable communication channels. Language choice therefore reflects not only linguistic ability but also the domain and purpose of information consumption. Consequently, although users consume news in different languages for different purposes, their broader editorial interests may remain sufficiently consistent to support cross-lingual preference transfer. This observation motivates our hypothesis that stable editorial preferences learned from English interactions can be transferred to recommend Telugu news despite the absence of Telugu user interactions.
+
+The structure of the Indian media ecosystem further reinforces this distinction. The growth of regional-language media has transformed public discourse by expanding coverage beyond the historically dominant English-speaking national elite \cite{neyazi2011politics}. English media has traditionally focused on national and international affairs, macroeconomic developments, and global issues, whereas regional-language media increasingly emphasizes state-level concerns, local governance, and community-centered narratives. Studies have shown that even when reporting the same event, English and regional-language media often frame stories differently. English-language reporting tends to emphasize global trends, scientific evidence, and policy implications, while regional-language reporting focuses on localized impacts, civic responses, and community experiences \cite{thaker2021environmentalism,takahashi2021handbook}. These differences create complementary information ecosystems rather than direct substitutes.
+
+This observation aligns with the principle of cultural proximity. Prior work shows that users consistently prefer media that reflects their linguistic, cultural, and geographic context, particularly when seeking information closely connected to their daily lives \cite{ng2023web}. Even when users are fully fluent in English, they frequently favor regional-language platforms for local and culturally relevant content. Taken together, these findings suggest that multilingual users may express their interests through one language while seeking complementary perspectives through another. These observations suggest that multilingual recommendation should transfer user interests rather than merely translating content, motivating the category-aligned framework proposed in this work.
+
+Motivated by this setting, we propose a cross-lingual news recommendation framework that recommends Telugu news articles to English users. Using MINDlarge as the source domain, we first develop an English recommendation model and compare four LightFM variants under the official evaluation protocol. We then refine noisy and overly generic metadata into a curated 23-category taxonomy, which both improves recommendation quality and establishes a shared feature space across languages. Finally, an XLM-RoBERTa classifier projects Telugu news articles into this category space, enabling the English-trained recommender to score previously unseen Telugu items without requiring Telugu clicks, overlapping users, bilingual interaction histories, or parallel recommendation data.
+
+The main contributions of this work are as follows:
+
+\begin{itemize}
+\item We develop and systematically evaluate four LightFM-based recommendation variants on the MINDlarge benchmark and demonstrate that a refined-category representation substantially improves recommendation performance.
+
+\item We introduce a category-aligned transfer framework that projects Telugu news articles into a shared feature space using an XLM-RoBERTa classifier, enabling recommendation without Telugu interaction data.
+
+\item We present a comprehensive evaluation through official MINDlarge test metrics, category-alignment analysis, corpus coverage statistics, recommendation-overlap analysis, and qualitative recommendation examples, demonstrating the feasibility of cross-lingual news recommendation in a complete target-domain cold-start setting.
+\end{itemize}
+
+\section{Related Work}
+\subsection{Multilingual Information Consumption}
+
+Research in sociolinguistics and information science suggests that multilingual users do not treat their languages as interchangeable communication channels. Instead, language choice is often influenced by informational goals, social context, and cultural identity. Information code-switching describes how multilingual individuals systematically select different languages for different information-seeking tasks \cite{CRL16765}. Studies of the Indian media ecosystem further show that regional-language media and English-language media frequently serve complementary roles, with English media emphasizing national and global issues while regional-language media focus on local and community-centered concerns \cite{neyazi2011politics}. The principle of cultural proximity similarly suggests that users prefer media reflecting their linguistic and cultural context \cite{ng2023web}. These findings suggest that although multilingual users consume different languages for different informational purposes, their underlying topical interests remain transferable across languages. This provides the behavioral motivation for category-level knowledge transfer in our framework.
+
+\subsection{News Recommendation Foundations} Research on news recommendation has progressed from content-based and collaborative filtering to large-scale neural approaches. Early hybrid systems combined term-weighted content modeling with user interest and preference profiles derived from navigation histories, augmented by trusted-user collaborative filtering, demonstrating that integrating textual and behavioral signals enhances personalization \cite{WEN20125806}. The MIND benchmark standardized large-scale evaluation with rich textual fields (titles, abstracts, bodies) and extensive click logs, enabling neural models that jointly learn news understanding and user interests; results show that performance highly relies on the quality of news content understanding and user interest modeling, and that effective text representations and pre-trained language models improve performance \cite{wu-etal-2020-mind}. As platforms increasingly serve multilingual audiences, recent datasets derived from MIND extend evaluation to multilingual settings, facilitating cross-lingual assessment and highlighting the need for multilingual and cross-lingual news recommendation benchmarks \cite{multilingualdataset,10.1145/3777415}.
+
+\subsection{Cold-Start and Few-Shot Recommendation} Cold-start is intrinsic to news due to the continuous arrival of unseen items and sparse early interactions. Classical mitigations leverage side information such as content features and metadata. Few-shot and transfer approaches move knowledge from resource-rich to data-scarce settings. Guo et al. propose a few-shot news recommendation framework based on two observations: (i) news across platforms—even across languages—can share similar topics, and (ii) user preference over these topics is transferable across platforms. To enable transfer from a many-shot source domain to a few-shot target domain without overlapping users or items, they introduce an unsupervised cross-lingual news encoder that aligns semantically similar news across domains and a user encoder that transfers user–news preferences to the target. Experiments on two real-world datasets show superior performance over baselines in addressing few-shot news recommendation \cite{10.1145/3543507.3583383}.
+
+\subsection{Cross-Lingual Recommendation and Domain Adaptation} Cross-lingual recommendation commonly leverages multilingual language models, contrastive or adversarial alignment, and machine-translation-based mapping to bridge linguistic and cultural gaps. Nonetheless, neural news recommenders often experience substantial performance drops in zero-shot cross-lingual transfer (ZS-XLT), underscoring the need for stronger cross-lingual alignment and domain adaptation \cite{multilingualdataset}. Addressing these challenges, Iana et al. propose a news-adapted sentence encoder (NaSE) obtained by domain-specializing a pretrained massively multilingual sentence encoder using two news-specific corpora (PolyNews and PolyNewsParallel). With NaSE in place, they question the necessity of supervised fine-tuning by introducing a simple baseline that uses frozen NaSE embeddings and late click-behavior fusion, and report state-of-the-art ZS-XLT performance in true cold-start and few-shot news recommendation, reducing the need for computationally expensive backbone fine-tuning \cite{10.1007/978-3-031-88711-6_8}. These approaches primarily rely on multilingual semantic representations and domain adaptation to bridge linguistic differences between languages. However, they largely assume that semantic alignment alone is sufficient for cross-lingual recommendation and do not explicitly account for the language-dependent information consumption behavior of multilingual users. This limitation motivates exploring category-level preference transfer, where stable editorial interests rather than article-level semantic similarity form the basis for cross-lingual recommendation.
+
+
+\subsection{Low-Resource Language Resources and Telugu NLP}
+
+Telugu NLP has advanced across code-mixed processing, sentiment analysis, and safety classification, yet progress remains constrained by limited annotated resources and benchmarks. A recent survey on Telugu--English code-mixed text catalogs available datasets and methods for tasks such as language identification, POS tagging, named entity recognition, sentiment analysis, dialogue systems, and question answering, and highlights that the lack of large annotated corpora continues to impede research and deployment \cite{10.1145/3695766}. Complementing this, work on monolingual Telugu hate-speech detection introduces a labeled Twitter corpus and systematically compares fine-tuned multilingual and Indic transformer models, including mBERT, DistilBERT, IndicBERT, NLLB, MuRIL, XLM-RoBERTa, and Indic-BART, reporting strong performance—particularly from mBERT—and demonstrating the effectiveness of multilingual representations for Telugu language understanding \cite{KHANDUJA2024200112}.
+
+Despite these advances in multilingual representation learning, Telugu-focused recommender systems remain largely unexplored, particularly in cross-lingual settings where target-language interaction data are unavailable. Existing Telugu research has primarily concentrated on language understanding and content classification rather than personalized recommendation. Consequently, there is limited work on leveraging user preferences learned from high-resource languages to support recommendation in low-resource languages such as Telugu. This gap motivates the category-aligned transfer framework proposed in this work, which transfers stable editorial preferences learned from English interactions to recommend Telugu news articles through a shared category space without requiring Telugu user interactions.
+\section{Methodology}\label{method}
+\subsection{Framework Overview}
+
+Our framework is motivated by the observation that multilingual users often exhibit information code-switching, where different languages are used for different informational needs. This suggests that stable editorial interests may be transferred across languages despite differences in language-specific content consumption. Based on this observation, our goal is to recommend Telugu news articles to English users despite the absence of Telugu interaction data. To achieve this, we construct a shared category-based representation that enables knowledge transfer between the two languages. The framework consists of three stages. First, we develop an English-side recommender using the MINDlarge dataset and evaluate multiple feature representations to identify an effective shared category space. Second, we train a multilingual classifier to project Telugu news articles into the same category space. Third, we use the English-trained recommendation model to score and rank Telugu articles for English users. By aligning both languages within a common category representation, the framework transfers stable editorial interests across languages without requiring Telugu user interactions, overlapping users, or parallel recommendation data.
+
+\subsection{English-Side Recommendation Model}
+
+\subsubsection{Baseline Model Development}
+
+We implement and compare four LightFM variants to identify an effective English-side recommendation model for subsequent cross-lingual transfer (Table~\ref{tab:model_variants}). Each variant differs primarily in its item features while using the same MINDlarge interaction data and evaluation procedure. Models are trained on the official MINDlarge training split, validated on the development split, and evaluated on the official test split through the Codabench server~\cite{codabench} using AUC, MRR, nDCG@5, and nDCG@10.
+
+\begin{itemize}
+
+\item \textbf{BERT Hybrid.} A multilingual sentence embedding of the news title and abstract is concatenated with a one-hot vector representing the raw MIND category. Embeddings are generated using \texttt{sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2} and reduced to 50 dimensions using truncated SVD before being used as LightFM item features.
+
+\item \textbf{TF-IDF Hybrid.} A TF-IDF representation of the news title is built with English stop-word removal and \texttt{max\_features=2000}, then concatenated with raw category features.
+
+\item \textbf{Vertical Category.} A category-only baseline that uses the raw MIND category as a one-hot feature vector.
+
+\item \textbf{Refined-Category Hybrid.} A curated 23-category representation replaces noisy and overly generic metadata with a more informative editorial taxonomy. The resulting one-hot category vector serves as the sole content feature for the refined variant, while LightFM retains its standard user and item identity representations during English-side training.
+
+\end{itemize}
+
+\paragraph{LightFM Training Configuration.}
+
+The initial MINDlarge baseline variants are trained with WARP loss, 30 latent factors, 20 epochs, and the default LightFM learning rate of 0.05. For the final Refined-Category model, hyperparameters are selected on the MINDlarge development split. The selected configuration uses BPR loss, 100 latent factors, 10 epochs, learning\_rate = 0.01, item\_alpha = 0, and user\_alpha = 0. The final model is trained on MINDlarge train only and evaluated on the official MINDlarge test split through Codabench. LightFM user and item biases are enabled in all variants. No early-stopping criterion is used in the final LightFM runs.
+
+\subsubsection{Construction of the Refined Category Taxonomy}
+\label{sec:refined_taxonomy}
+
+The MINDlarge training split contains 18 raw categories and 285 subcategories. Many articles are assigned to the generic \textit{news} category, which conflates topics such as politics, world affairs, crime, science, and technology. At the same time, the original taxonomy provides a level of granularity that is not well suited for constructing a shared representation across languages.
+
+The objective of the refinement is to obtain a category representation that is sufficiently discriminative for recommendation while remaining general enough to support cross-lingual transfer. We therefore refine the taxonomy by promoting informative subcategories to standalone categories, merging semantically related categories, and preserving editorial distinctions that are common to both English and Telugu news. The resulting 23-category taxonomy provides a balance between semantic specificity, category coverage, and transferability. The taxonomy is constructed using the following three steps:
+
+\begin{enumerate}
+
+\item \textbf{Promotion.} Informative and high-frequency subcategories within the generic \textit{news} vertical (e.g., world, politics, science\&technology) are promoted to standalone labels.
+
+\item \textbf{Consolidation.} Rare or noisy categories are merged into semantically related higher-level categories through a manually curated mapping.
+
+\item \textbf{Sharing.} The resulting category set is adopted as a common representation for both English and Telugu articles.
+
+\end{enumerate}
+
+The complete mapping from raw categories and subcategories to refined labels is provided in Appendix~A. The resulting 23-category taxonomy serves as the shared feature space for English recommendation model training, Telugu article classification, and cross-lingual recommendation, ensuring that both languages are represented within the same editorial feature space.
+
+\paragraph{Scoring Function.}
+
+LightFM predicts the affinity between user $u$ and item $i$ as
+
+\[
+s_{ui}=p_u^Tq(x_i)+b_u+b_i,
+\]
+
+where $p_u \in \mathbb{R}^{k}$ denotes the latent user representation, $x_i \in {0,1}^{23}$ represents the refined-category feature vector, $q(\cdot)$ is the learned feature embedding function, and $b_u$ and $b_i$ are user and item biases.
+
+\subsection{Telugu Article Representation}
+
+\subsubsection{Data Ingestion and Cleaning}
+
+We collect Telugu news articles from Andhra Jyothi and Eenadu in Parquet format. Duplicate articles are removed using \texttt{story\_id}, whitespace is normalized, and article headlines and bodies are concatenated into a single textual representation. After deduplication, the Telugu corpus contains 40,906 articles.
+
+\subsubsection{Multilingual Category Classification}
+
+To place Telugu articles within the shared category space, we train a multilingual classifier using English MINDlarge articles labeled with the refined categories. Specifically, we fine-tune \texttt{xlm-roberta-base} as a 23-class category classifier.
+
+\paragraph{Training Setup.}
+
+The classifier is trained on 91,374 English articles and validated on 10,153 articles using a seeded train-validation split. We use a maximum sequence length of 256, three training epochs, AdamW optimization with learning rate $2\times10^{-5}$ and weight decay 0.01, and random seed 42. The best checkpoint is selected according to validation macro-F1. The final model achieves a validation accuracy of 0.7658 and a macro-F1 score of 0.6990.
+
+\paragraph{Inference on Telugu Articles.}
+
+Telugu articles are processed in batches using the same tokenizer with truncation length 256. For each article, the classifier outputs a probability distribution over the 23 refined categories. Rather than assigning a single category label, we retain the complete 23-dimensional probability vector. This preserves topical uncertainty and allows articles containing multiple themes to contribute to multiple category dimensions simultaneously.
+
+\subsubsection{Feature Construction}
+
+The resulting probability vectors are converted into a sparse item-feature matrix of shape $40{,}906 \times 23$. For compatibility with the English-trained LightFM model, the features are aligned to the model's item-feature index, producing an expanded sparse matrix of shape $40{,}906 \times 129{,}831$ with 881,861 non-zero entries.
+
+\subsection{Cross-Lingual Recommendation}
+
+Given English user embeddings learned from MINDlarge and Telugu article representations expressed in the same category space, we compute recommendation scores for every user--article pair using the pretrained Refined Category LightFM model. Telugu articles are then ranked according to their predicted scores.
+
+Because both user preferences and Telugu article representations are encoded within the same refined-category space, stable editorial interests learned from English interactions can be transferred to previously unseen Telugu articles. Consequently, the model recommends Telugu news without requiring Telugu clicks, overlapping users, bilingual users, or parallel interaction data.
+
+\subsection{Target-Domain Evaluation}
+
+Direct click-based evaluation is infeasible because the Telugu corpus contains no impression logs, click histories, or relevance labels. We therefore employ a set of complementary proxy analyses.
+
+\begin{itemize}
+
+\item \textbf{Category Coverage.} Fraction of the 23 refined categories represented within the Telugu corpus and the associated category distribution.
+
+\item \textbf{Category Alignment.} Agreement between a user's English-side learned category preferences and the category distribution of the user's Telugu top-10 recommendations.
+
+\item \textbf{List Overlap.} Inter-user personalization measured using Jaccard overlap between top-10 recommendation lists at both story and headline levels.
+
+\item \textbf{Qualitative Inspection.} Human-readable recommendation examples for representative users with sports, entertainment, and politics preferences.
+
+\end{itemize}
+
+Although these analyses do not replace click-based metrics, they provide complementary evidence regarding category preservation, personalization, and recommendation relevance under complete target-domain cold start.
+
+\subsection{Implementation Notes and Ethics}
+
+The implementation consists of three stages: (i) English-side recommendation model development and category refinement, (ii) multilingual classifier training and Telugu category inference, and (iii) cross-lingual scoring and evaluation. Random seeds are fixed where explicitly supported by the training pipeline, such as the XLM-RoBERTa classifier split and training run, and all model configurations are reported to facilitate reproducibility.
+
+We process publicly available news content and adhere to the respective source terms of use. No personally identifiable information is collected from Telugu news sources, and MIND user identifiers remain anonymized in accordance with the dataset license.
+
+
+\section{Results and Analysis}
+
+\subsection{English-Side Recommendation Performance}
+
+Table~\ref{tab:model_variants} reports the official MINDlarge test performance of the four LightFM variants. The Refined Category LightFM model achieves the best performance across all evaluation metrics, substantially outperforming the BERT Hybrid, TF-IDF Hybrid, and Vertical Category baselines. Specifically, it obtains an AUC of 0.6059, MRR of 0.2800, nDCG@5 of 0.2995, and nDCG@10 of 0.3573. These results indicate that the refined-category representation captures user interests more effectively than both text-based and raw-category feature configurations. Consequently, the Refined Category LightFM model is adopted as the English-side recommender for subsequent cross-lingual transfer.
+
+\begin{table*}[t]
+\centering
+\caption{Official MINDlarge test performance of LightFM variants}
+\label{tab:model_variants}
+\small
+\begin{tabular}{lcccc}
+\toprule
+Model Variant & AUC & MRR & nDCG@5 & nDCG@10 \\
+\midrule
+BERT Hybrid LightFM      & 0.5153 & 0.2251 & 0.2343 & 0.2898 \\
+TF-IDF Hybrid LightFM    & 0.5145 & 0.2247 & 0.2336 & 0.2891 \\
+Vertical Category LightFM & 0.5151 & 0.2256 & 0.2347 & 0.2902 \\
+Refined Category LightFM & \textbf{0.6059} & \textbf{0.2800} & \textbf{0.2995} & \textbf{0.3573} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+\subsection{Evaluation Challenges in the Telugu Domain}
+
+Evaluating recommendation quality in the Telugu domain differs fundamentally from evaluating the English MINDlarge dataset. While MINDlarge provides impression logs and click labels that enable standard ranking metrics such as AUC, MRR, and nDCG, the Telugu corpus contains only article content and metadata. No Telugu users, click histories, impression logs, or ground-truth relevance labels are available. Consequently, conventional recommendation metrics cannot be computed for transferred Telugu recommendations.
+
+To address this limitation, we employ a set of complementary proxy analyses designed to assess whether the transfer framework behaves as intended. Specifically, we evaluate category-space coverage, category alignment between learned user preferences and recommended Telugu content, inter-user recommendation overlap, and qualitative recommendation examples. Although these analyses do not replace click-based evaluation, they provide useful evidence regarding category preservation, recommendation relevance, and personalization in a complete target-domain cold-start setting.
+
+\subsection{Category-Space Transfer Analysis}
+
+We first examine how effectively Telugu news articles are represented within the shared refined-category space. The Telugu corpus contains 40,906 deduplicated articles, of which 19 out of the 23 refined MINDlarge categories are represented by the classifier's top-1 predictions. This corresponds to a category coverage of 82.61%.
+
+The presence of categories such as sports, politics, finance, movies, health, weather, travel, and world news indicates that a substantial portion of Telugu news content can be represented using the same editorial taxonomy learned from English interactions. These results suggest that the refined-category representation provides sufficient topical coverage to support cross-lingual recommendation. More importantly, they indicate that a substantial portion of Telugu news can be expressed within the same editorial category space learned from English interactions, providing the foundation for transferring stable user interests across languages despite differences in language-specific content.
+ The effectiveness of this shared representation is further examined through representative user-specific recommendation examples in the next subsection (\ref{repre}).
+
+\subsection{Representative Recommendation Examples}\label{repre}
+
+To illustrate the behavior of the English-trained recommender on previously unseen Telugu content, we select three representative English users exhibiting distinct preference profiles. For each user, we identify the strongest learned categories and generate Telugu top-10 recommendations. The selected user profiles are summarized in Table~\ref{tab:top3_affinities}.
+
+\begin{table}[t]
+\centering
+\caption{Representative English user profiles used for Telugu recommendation examples}
+\label{tab:top3_affinities}
+\small
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llll}
+\toprule
+User ID & 1st Category & 2nd Category & 3rd Category \\
+\midrule
+U245228 & sports & tv & music \\
+U539584 & music & movies & entertainment \\
+U69259 & newspolitics & newsworld & newsscienceandtechnology \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Using the refined-category feature matrix, we score all Telugu articles for each representative user and rank them according to predicted preference. The resulting recommendation lists exhibit strong semantic alignment with the users' learned interests. The sports-oriented user receives cricket and team-selection news, the entertainment-oriented user receives song-release and movie-related articles, and the politics-oriented user receives parliament, cabinet, and current-affairs headlines.
+
+Across the inspected recommendation examples, the predicted Telugu categories consistently align with each user's dominant learned interests, with a mean classifier confidence of 0.9658. These observations provide preliminary evidence that category-aligned transfer preserves user-interest signals across languages. Although the recommended articles differ linguistically and contextually, the dominant editorial interests learned from English users are consistently reflected in the Telugu recommendation lists, supporting the underlying hypothesis that stable topical preferences can be transferred across languages. Example recommendation lists are provided in Appendix~B.
+
+\subsection{Personalization Analysis}
+
+To evaluate personalization beyond representative examples, we sample 500 English users and generate Telugu top-10 recommendation lists for each user. We then measure inter-user overlap using Jaccard similarity at both story and headline levels.
+
+The mean story-level overlap is 0.0681, while the mean headline-level overlap is 0.0736. These low overlap values indicate that most users receive substantially different recommendation lists, although users with similar learned preferences may still share relevant Telugu articles.
+
+Furthermore, no exact duplicate story IDs were observed within the sampled recommendation lists. Because the Telugu corpus occasionally contains repeated or near-identical headlines associated with different story identifiers, headline-deduplicated lists are used in the qualitative examples. Overall, the low overlap values suggest that the transferred recommender maintains personalization rather than producing nearly identical recommendation lists for all users.
+
+\subsection{Discussion}
+
+Taken together, the English-side evaluation, category-space coverage analysis, category-alignment observations, qualitative recommendation examples, and inter-user overlap statistics provide supporting evidence for the effectiveness of the proposed category-aligned transfer framework. Despite the complete absence of Telugu user interaction data, the system successfully maps Telugu articles into a shared representation, preserves user-interest signals, and generates personalized recommendation lists.
+
+Beyond demonstrating the technical feasibility of cross-lingual recommendation, these findings support the underlying motivation of this work. Multilingual users often consume different languages for different informational purposes rather than treating them as interchangeable. By transferring stable editorial interests through a shared category space, the proposed framework bridges this behavioral gap without relying on bilingual users, machine translation, or target-language interaction data. This suggests that category-level preference transfer provides a practical mechanism for extending personalized recommendation to low-resource multilingual settings.
+
+
+\section{Conclusion and Future Work}
+
+This paper presented a category-aligned cross-lingual news recommendation framework that enables Telugu news recommendation for English users without requiring Telugu user interactions, bilingual users, or parallel click data. Motivated by multilingual information consumption in low-resource settings, the proposed framework transfers user preferences learned from English interactions through a shared editorial category space.
+
+Experimental results demonstrated that the refined-category representation substantially improves English-side recommendation performance while providing an effective shared feature space for transferring user preferences across languages. By projecting Telugu articles into this shared representation, the framework enables personalized recommendation in a complete target-domain cold-start setting.
+
+Although Telugu interaction data were unavailable for direct click-based evaluation, multiple proxy analyses consistently indicated that the proposed framework preserves user-interest signals and generates personalized Telugu recommendation lists. More broadly, the results suggest that multilingual users need not be treated as having independent language-specific preferences; instead, stable editorial interests can be effectively transferred across languages through a shared category representation. Because the framework requires only category prediction for newly arriving articles, it remains simple, scalable, and practical for real-world multilingual news platforms.
+
+Future work will investigate the integration of category-level transfer with multilingual semantic representations, evaluation using interaction data from bilingual users, and extension of the framework to additional Indian languages. Exploring hybrid models that combine category alignment with semantic alignment and dynamic cross-lingual user modelling also represents a promising direction for improving recommendation relevance and personalization.
+
+
+
+\bibliography{refs}
+\bibliographystyle{ieeetr}
+%\newpage
+\appendices
+\section{Final Refined MINDlarge Category Set}
+
+Table~\ref{tab:refined_categories} presents the final 23-category taxonomy derived from the original MINDlarge category and subcategory hierarchy. This taxonomy serves as the shared representation used for both English and Telugu news articles throughout the proposed framework.
+
+\begin{table*}[ht]
+\centering
+\caption{Final refined MINDlarge category set}
+\label{tab:refined_categories}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{llll}
+\hline
+\textbf{Category} & \textbf{Category} & \textbf{Category} & \textbf{Category} \\
+\hline
+autos & entertainment & finance & foodanddrink \\
+games & health & lifestyle & movies \\
+music & news & newscrime & newslocalpolitics \\
+newspolitics & newsscienceandtechnology & newstechnology & newstrends \\
+newsvideos & newsworld & sports & travel \\
+tv & video & weather & \\
+\hline
+\end{tabular}
+}
+\end{table*}
+
+\section{Representative Telugu Recommendation Examples}
+The following examples are headline-deduplicated top-ranked Telugu recommendations generated by the Refined Category LightFM model. User profiles are characterized using their top learned English-side category affinities.
+\subsection{User U245228: Sports-Oriented Profile}
+\begin{table*}[t]
+\centering
+\caption*{Top-5 Telugu news recommendations for a representative sports-oriented user.}
+\label{tab:telugu_recommendations}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{c c c c l}
+\hline
+\textbf{Rank} & \textbf{Story ID} & \textbf{Score} & \textbf{Category} & \textbf{Headline} \\
+\hline
+1 & 666456  & 10.5227 & sports & {\telugufont ఇప్పట్లో ధోనీ రిటైర్ అవ్వడు : ఎమ్మెస్కే} \\
+2 & 540597  & 10.5225 & sports & {\telugufont వెస్టిండీస్ పర్యటనకు భారత జట్టు ప్రకటన} \\
+3 & 2529927 & 10.5225 & sports & {\telugufont ఆకాశ్దీప్ ఆడేనా?} \\
+4 & 2542932 & 10.5214 & sports & {\telugufont రోహిత్కు ముందే చెప్పేశారా?} \\
+5 & 2509585 & 10.5210 & sports & {\telugufont బుమ్రాకే పగ్గాలు!} \\
+\hline
+\end{tabular}%
+}
+\end{table*}
+\FloatBarrier
+
+\subsection{User U539584: Music/Entertainment-Oriented Profile}
+
+\begin{table}[h]
+\centering
+\resizebox{\textwidth}{!}{
+\begin{tabular}{c c c c l}
+\hline
+\textbf{Rank} & \textbf{story\_id} & \textbf{score} & \textbf{category} & \textbf{Headline} \\
+\hline
+1 & 2513068 & 8.1485 & music & {\telugufont హాట్ హిట్స్} \\
+2 & 2515611 & 8.1047 & music & {\telugufont ఆమె కూడా భర్తకు విడాకులు ఇచ్చింది} \\
+3 & 330131 & 8.0494 & music & {\telugufont జగమే తంత్రం నుంచి రకిట రకిట పాట విడుదల} \\
+4 & 220345 & 8.0065 & music & {\telugufont మహేశ్ మూవీ మ్యూజికల్ సెషన్ ప్రారంభం} \\
+5 & 690137 & 8.0004 & music & {\telugufont టక్ జగదీష్ సినిమా నుంచి పాట విడుదల} \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\subsection{User U69259: Politics-Oriented Profile}
+
+\begin{table}[h]
+\centering
+\resizebox{\textwidth}{!}{
+\begin{tabular}{c c c c l}
+\hline
+\textbf{Rank} & \textbf{story\_id} & \textbf{score} & \textbf{category} & \textbf{Headline} \\
+\hline
+1 & 2528868 & 9.7383 & newspolitics & {\telugufont జమిలిపై ముందుకు!} \\
+2 & 2517765 & 9.7156 & newspolitics & {\telugufont పార్లమెంటు ముందుకు} \\
+3 & 2517732 & 9.7045 & newspolitics & {\telugufont పార్లమెంటు ముందుకు 16 బిల్లులు!} \\
+4 & 2527970 & 9.6977 & newspolitics & {\telugufont ఏపీ కేబినెట్లోకి నాగబాబు!} \\
+5 & 2503356 & 9.6914 & newspolitics & {\telugufont 5న రాష్ట్రానికి రాహుల్} \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\end{document}

@@ -1,0 +1,16 @@
+profile,user_id,rank,headline,predicted_category,top_category_1,top_category_2,top_category_3,manual_relevance,manual_rationale
+Sports-oriented,U245228,1,ఇప్పట్లో ధోనీ రిటైర్ అవ్వడు : ఎమ్మెస్కే,sports,sports,tv,music,Relevant,Dhoni/cricket headline; directly matches sports profile.
+Sports-oriented,U245228,2,వెస్టిండీస్ పర్యటనకు భారత జట్టు ప్రకటన,sports,sports,tv,music,Relevant,Indian team selection headline; directly matches sports profile.
+Sports-oriented,U245228,3,ఆకాశ్దీప్ ఆడేనా?,sports,sports,tv,music,Relevant,Akash Deep cricket selection/playing headline; sports-relevant.
+Sports-oriented,U245228,4,రోహిత్కు ముందే చెప్పేశారా?,sports,sports,tv,music,Relevant,Rohit/cricket headline; sports-relevant.
+Sports-oriented,U245228,5, బుమ్రాకే పగ్గాలు!,sports,sports,tv,music,Relevant,Bumrah/cricket leadership headline; sports-relevant.
+Music/Entertainment-oriented,U539584,1,హాట్ హిట్స్,music,music,movies,entertainment,Relevant,Music hits headline; matches music profile.
+Music/Entertainment-oriented,U539584,2,ఆమె కూడా భర్తకు విడాకులు ఇచ్చింది,music,music,movies,entertainment,Relevant,Celebrity/film-industry headline; relevant to broader entertainment profile.
+Music/Entertainment-oriented,U539584,3,‘జగమే తంత్రం’ నుంచి రకిట రకిట పాట విడుదల,music,music,movies,entertainment,Relevant,Song release from a film; matches music/movie profile.
+Music/Entertainment-oriented,U539584,4,మహేశ్ మూవీ మ్యూజికల్ సెషన్ ప్రారంభం,music,music,movies,entertainment,Relevant,Movie musical-session headline; matches music/movie profile.
+Music/Entertainment-oriented,U539584,5,’టక్ జగదీష్‘ సినిమా నుంచి పాట విడుదల,music,music,movies,entertainment,Relevant,Song release from a film; matches music/movie profile.
+Politics-oriented,U69259,1,జమిలిపై ముందుకు!,newspolitics,newspolitics,newsworld,newsscienceandtechnology,Relevant,Political headline about simultaneous elections; matches politics profile.
+Politics-oriented,U69259,2,పార్లమెంటు ముందుకు,newspolitics,newspolitics,newsworld,newsscienceandtechnology,Relevant,Parliament-related headline; matches politics profile.
+Politics-oriented,U69259,3,పార్లమెంటు ముందుకు 16 బిల్లులు!,newspolitics,newspolitics,newsworld,newsscienceandtechnology,Relevant,Parliament/bills headline; matches politics profile.
+Politics-oriented,U69259,4,ఏపీ కేబినెట్లోకి నాగబాబు!,newspolitics,newspolitics,newsworld,newsscienceandtechnology,Relevant,State cabinet headline; matches politics profile.
+Politics-oriented,U69259,5,5న రాష్ట్రానికి రాహుల్,newspolitics,newspolitics,newsworld,newsscienceandtechnology,Relevant,Rahul/state visit headline; matches politics/current-affairs profile.

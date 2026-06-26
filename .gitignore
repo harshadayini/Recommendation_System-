@@ -33,12 +33,34 @@ env/
 MINDsmall_train/
 MINDsmall_dev/
 telugu/
+MINDlarge_train/
+MINDlarge_dev/
+MINDlarge_test/
+
+# Keep source code under scripts/telugu even though dataset folders named telugu are ignored
+!scripts/
+!scripts/**
+!scripts/telugu/
+!scripts/telugu/**
 
 # Model/output folders
-results/
 telugu_classifier/
 telugu_classifier_model/
 telugu_classifier_newcat/
+
+# Keep lightweight result summaries for paper/reproducibility, but ignore binary artifacts above
+results/**
+!results/
+!results/**/
+!results/**/*.json
+!results/**/*.csv
+!results/**/*.txt
+
+# Keep small submission metadata, not prediction files/zips/models
+submissions/**
+!submissions/
+!submissions/**/
+!submissions/**/submission_metadata.json
 
 # Logs
 *.log

@@ -1,0 +1,19 @@
+{
+  "model_name": "vertical",
+  "model_path": "results/mindlarge_train/vertical_model.pkl",
+  "dataset_path": "results/mindlarge_train/vertical_dataset.pkl",
+  "item_features_path": "results/mindlarge_train/vertical_item_features.npz",
+  "prediction_path": "submissions/vertical_mindlarge_test_saved/prediction.txt",
+  "zip_path": "submissions/vertical_mindlarge_test_saved/prediction.zip",
+  "generation": {
+    "groups": 2370727,
+    "candidates": 93115001,
+    "unknown_candidate_items": 68431548,
+    "groups_with_no_known_candidate_items": 569385,
+    "cold_user_groups": 358094
+  },
+  "validation": {
+    "groups": 2370727,
+    "candidates": 93115001
+  }
+}

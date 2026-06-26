@@ -1,0 +1,162 @@
+{
+  "final_dataset_path": "submissions/refined_mindlarge_test_train_only/refined_submission_dataset.pkl",
+  "final_model_category_count": 23,
+  "final_model_categories": [
+    "autos",
+    "entertainment",
+    "finance",
+    "foodanddrink",
+    "games",
+    "health",
+    "lifestyle",
+    "movies",
+    "music",
+    "news",
+    "newscrime",
+    "newslocalpolitics",
+    "newspolitics",
+    "newsscienceandtechnology",
+    "newstechnology",
+    "newstrends",
+    "newsvideos",
+    "newsworld",
+    "sports",
+    "travel",
+    "tv",
+    "video",
+    "weather"
+  ],
+  "mindlarge_news_category_count": 23,
+  "mindlarge_news_categories": [
+    "autos",
+    "entertainment",
+    "finance",
+    "foodanddrink",
+    "games",
+    "health",
+    "lifestyle",
+    "movies",
+    "music",
+    "news",
+    "newscrime",
+    "newslocalpolitics",
+    "newspolitics",
+    "newsscienceandtechnology",
+    "newstechnology",
+    "newstrends",
+    "newsvideos",
+    "newsworld",
+    "sports",
+    "travel",
+    "tv",
+    "video",
+    "weather"
+  ],
+  "old_newcat_csv": "newcat.csv",
+  "old_newcat_category_count": 19,
+  "old_newcat_categories": [
+    "autos",
+    "entertainment",
+    "finance",
+    "foodanddrink",
+    "health",
+    "lifestyle",
+    "movies",
+    "music",
+    "news",
+    "newscrime",
+    "newspolitics",
+    "newsscienceandtechnology",
+    "newstrends",
+    "newsworld",
+    "sports",
+    "travel",
+    "tv",
+    "video",
+    "weather"
+  ],
+  "missing_from_old_newcat": [
+    "games",
+    "newslocalpolitics",
+    "newstechnology",
+    "newsvideos"
+  ],
+  "old_newcat_not_in_final_model": [],
+  "final_model_vs_mindlarge_news_mismatch": {
+    "model_not_in_mindlarge_news": [],
+    "mindlarge_news_not_in_model": []
+  },
+  "telugu_data": {
+    "parquet_files": [
+      "telugu/test-00000-of-00001.parquet",
+      "telugu/train-00000-of-00001.parquet",
+      "telugu/val-00000-of-00001.parquet"
+    ],
+    "splits": {
+      "test-00000-of-00001.parquet": {
+        "rows": 12504,
+        "columns": [
+          "story_id",
+          "headline",
+          "article"
+        ]
+      },
+      "train-00000-of-00001.parquet": {
+        "rows": 83866,
+        "columns": [
+          "story_id",
+          "headline",
+          "article"
+        ]
+      },
+      "val-00000-of-00001.parquet": {
+        "rows": 5962,
+        "columns": [
+          "story_id",
+          "headline",
+          "article"
+        ]
+      }
+    },
+    "total_rows": 102332
+  },
+  "artifact_status": {
+    "telugu_classifier": {
+      "exists": true,
+      "is_dir": true,
+      "size_bytes": null
+    },
+    "telugu_classifier_newcat": {
+      "exists": false,
+      "is_dir": false,
+      "size_bytes": null
+    },
+    "telugu_all_probs_newcat.npy": {
+      "exists": false,
+      "is_dir": false,
+      "size_bytes": null
+    },
+    "telugu_story_ids_newcat.csv": {
+      "exists": false,
+      "is_dir": false,
+      "size_bytes": null
+    },
+    "telugu_df_full.pkl": {
+      "exists": false,
+      "is_dir": false,
+      "size_bytes": null
+    },
+    "item_features_newcat.npz": {
+      "exists": true,
+      "is_dir": false,
+      "size_bytes": 183976
+    },
+    "lightfm_model_newcat.pkl": {
+      "exists": true,
+      "is_dir": false,
+      "size_bytes": 54673018
+    }
+  },
+  "aligned": false,
+  "conclusion": "Telugu category processing is not fully aligned with the final MINDlarge refined model."
+}

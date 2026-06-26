@@ -1,0 +1,4 @@
+user_id,top_k,headline_uniqueness,category_entropy_bits,unique_categories
+U245228,10,1.0,-0.0,1
+U539584,10,1.0,-0.0,1
+U69259,10,1.0,-0.0,1

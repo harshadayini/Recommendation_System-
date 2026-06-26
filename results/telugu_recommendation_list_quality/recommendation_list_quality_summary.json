@@ -1,0 +1,24 @@
+{
+  "raw_top10": {
+    "users": 3,
+    "mean_headline_uniqueness": 0.39999999999999997,
+    "mean_headline_duplicate_rate": 0.6,
+    "mean_story_id_uniqueness": 1.0,
+    "mean_story_id_duplicate_rate": 0.0,
+    "mean_story_id_jaccard": 0.0,
+    "mean_headline_jaccard": 0.0,
+    "max_story_id_jaccard": 0.0,
+    "max_headline_jaccard": 0.0
+  },
+  "headline_deduped_top10": {
+    "users": 3,
+    "mean_headline_uniqueness": 1.0,
+    "mean_headline_duplicate_rate": 0.0,
+    "mean_story_id_uniqueness": 1.0,
+    "mean_story_id_duplicate_rate": 0.0,
+    "mean_story_id_jaccard": 0.0,
+    "mean_headline_jaccard": 0.0,
+    "max_story_id_jaccard": 0.0,
+    "max_headline_jaccard": 0.0
+  }
+}

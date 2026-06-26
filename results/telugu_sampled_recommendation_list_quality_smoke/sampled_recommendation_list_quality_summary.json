@@ -1,0 +1,17 @@
+{
+  "sample_users": 10,
+  "top_k": 10,
+  "seed": 107,
+  "recommendations": 100,
+  "mean_story_id_uniqueness": 1.0,
+  "mean_story_id_duplicate_rate": 0.0,
+  "mean_headline_uniqueness": 0.51,
+  "mean_headline_duplicate_rate": 0.48999999999999994,
+  "median_headline_uniqueness": 0.45,
+  "mean_story_id_jaccard": 0.03967143967143967,
+  "mean_headline_jaccard": 0.03333333333333333,
+  "max_story_id_jaccard": 0.8181818181818182,
+  "max_headline_jaccard": 1.0,
+  "mean_shared_story_ids": 0.4888888888888889,
+  "mean_shared_headlines": 0.08888888888888889
+}

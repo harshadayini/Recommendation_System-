@@ -1,0 +1,2 @@
+config_id,loss,no_components,learning_rate,epochs,item_alpha,user_alpha,AUC,MRR,nDCG@5,nDCG@10,groups_seen,groups_evaluated,groups_skipped_unknown_user,groups_skipped_no_known_items,groups_skipped_single_class,known_candidate_item_ratio,evaluated_group_ratio
+loss-bpr_comp-100_lr-0p01_epochs-10_ia-1e-06_ua-1e-06,bpr,100,0.01,10,1e-06,1e-06,0.6235810032958866,0.33090794508416,0.3114438040659744,0.37566414511373275,62572,50000,8138,860,3574,0.8306279057028806,0.7990794604615483

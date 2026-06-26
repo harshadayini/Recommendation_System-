@@ -1,0 +1,21 @@
+{
+  "strategy": "refined_lightfm_history_category_fallback",
+  "model_path": "submissions/refined_mindlarge_test_train_only/refined_submission_model.pkl",
+  "dataset_path": "submissions/refined_mindlarge_test_train_only/refined_submission_dataset.pkl",
+  "item_features_path": "submissions/refined_mindlarge_test_train_only/refined_submission_item_features.pkl",
+  "prediction_path": "submissions/refined_history_fallback_test/prediction.txt",
+  "zip_path": "submissions/refined_history_fallback_test/prediction.zip",
+  "model_weight": 0.75,
+  "fallback_weight": 0.25,
+  "generation": {
+    "groups": 2370727,
+    "candidates": 93115001,
+    "cold_candidate_items": 68431548,
+    "known_user_groups_with_no_train_candidates": 569385,
+    "cold_user_groups": 358094
+  },
+  "validation": {
+    "groups": 2370727,
+    "candidates": 93115001
+  }
+}

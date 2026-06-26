@@ -1,0 +1,7 @@
+list_type,user_id,top_k,unique_story_ids,story_id_uniqueness,story_id_duplicate_rate,unique_headlines,headline_uniqueness,headline_duplicate_rate
+raw_top10,U245228,10,10,1.0,0.0,5,0.5,0.5
+raw_top10,U539584,10,10,1.0,0.0,2,0.2,0.8
+raw_top10,U69259,10,10,1.0,0.0,5,0.5,0.5
+headline_deduped_top10,U245228,10,10,1.0,0.0,10,1.0,0.0
+headline_deduped_top10,U539584,10,10,1.0,0.0,10,1.0,0.0
+headline_deduped_top10,U69259,10,10,1.0,0.0,10,1.0,0.0

@@ -1,0 +1,30 @@
+{
+  "config": {
+    "train_dir": "MINDlarge_train",
+    "eval_dir": "MINDlarge_dev",
+    "test_dir": "MINDlarge_test",
+    "loss": "bpr",
+    "components": 10,
+    "learning_rate": 0.01,
+    "epochs": 1,
+    "item_alpha": 0.0,
+    "user_alpha": 0.0,
+    "user_identity_features": false,
+    "item_identity_features": false,
+    "explicit_train_uid_features": true,
+    "explicit_train_iid_features": true,
+    "history_category_features": true
+  },
+  "eval": {
+    "AUC": 0.6088936211440408,
+    "MRR": 0.3265849963135305,
+    "nDCG@5": 0.3114934789794513,
+    "nDCG@10": 0.3735709586202239,
+    "groups_seen": 1000,
+    "candidate_items_seen": 37456,
+    "candidate_items_known": 37456,
+    "groups_evaluated": 1000,
+    "known_candidate_item_ratio": 1.0,
+    "evaluated_group_ratio": 1.0
+  }
+}

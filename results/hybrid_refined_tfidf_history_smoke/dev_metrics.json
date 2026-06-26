@@ -1,0 +1,31 @@
+{
+  "config": {
+    "mode": "eval",
+    "train_dir": "MINDlarge_train",
+    "eval_dir": "MINDlarge_dev",
+    "test_dir": "MINDlarge_test",
+    "model_path": "submissions/refined_mindlarge_test_train_only/refined_submission_model.pkl",
+    "dataset_path": "submissions/refined_mindlarge_test_train_only/refined_submission_dataset.pkl",
+    "item_features_path": "submissions/refined_mindlarge_test_train_only/refined_submission_item_features.pkl",
+    "max_features": 20000,
+    "history_limit": 100,
+    "known_bias": 0.0,
+    "category_boost": 0.02,
+    "popularity_boost": 0.001,
+    "known_case_policy": "LightFM score only, normalized within known candidates; no TF-IDF blend",
+    "cold_case_policy": "TF-IDF clicked-history cosine similarity plus small refined-category/popularity tie-breakers"
+  },
+  "eval": {
+    "AUC": 0.6330382197469469,
+    "MRR": 0.352327023000114,
+    "nDCG@5": 0.3385079551787574,
+    "nDCG@10": 0.3953547874967904,
+    "groups_seen": 1000,
+    "candidate_items_seen": 37456,
+    "cold_candidate_items": 1657,
+    "groups_evaluated": 1000,
+    "cold_user_groups": 142,
+    "known_user_groups_with_no_train_candidates": 4,
+    "evaluated_group_ratio": 1.0
+  }
+}

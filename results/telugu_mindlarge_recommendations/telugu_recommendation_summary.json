@@ -1,0 +1,59 @@
+{
+  "telugu_rows": 40906,
+  "category_count": 23,
+  "full_item_features_shape": [
+    40906,
+    129831
+  ],
+  "full_item_features_nnz": 881861,
+  "top_k": 10,
+  "representative_users": [
+    {
+      "target_category": "sports",
+      "user_id": "U245228",
+      "user_index": 161368,
+      "top_category_1": "sports",
+      "top_score_1": 10.534417152404785,
+      "top_category_2": "tv",
+      "top_score_2": 3.2428855895996094,
+      "top_category_3": "music",
+      "top_score_3": 1.1358016729354858
+    },
+    {
+      "target_category": "music",
+      "user_id": "U539584",
+      "user_index": 488429,
+      "top_category_1": "music",
+      "top_score_1": 8.39965534210205,
+      "top_category_2": "movies",
+      "top_score_2": 7.260138988494873,
+      "top_category_3": "entertainment",
+      "top_score_3": 6.0439453125
+    },
+    {
+      "target_category": "newspolitics",
+      "user_id": "U69259",
+      "user_index": 658435,
+      "top_category_1": "newspolitics",
+      "top_score_1": 9.843371391296387,
+      "top_category_2": "newsworld",
+      "top_score_2": 9.255341529846191,
+      "top_category_3": "newsscienceandtechnology",
+      "top_score_3": 5.007713317871094
+    }
+  ],
+  "raw_diversity_mean": {
+    "top_k": 10.0,
+    "headline_uniqueness": 0.43333333333333335,
+    "category_entropy_bits": 0.0,
+    "unique_categories": 1.0
+  },
+  "raw_mean_pairwise_jaccard_excluding_diagonal": 0.0,
+  "headline_deduped_diversity_mean": {
+    "top_k": 10.0,
+    "headline_uniqueness": 1.0,
+    "category_entropy_bits": 0.0,
+    "unique_categories": 1.0
+  },
+  "headline_deduped_mean_pairwise_jaccard_excluding_diagonal": 0.0
+}
